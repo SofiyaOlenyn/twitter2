@@ -5,10 +5,10 @@ import * as React from 'react';
 
 import Colors from '../constants/Colors';
 import useColorScheme from '../hooks/useColorScheme';
-import TabOneScreen from '../screens/TabOneScreen';
+import HomeScreen from '../screens/HomeScreen';
 import TabTwoScreen from '../screens/TabTwoScreen';
 import { BottomTabParamList, HomeNavigatorParamList, TabTwoParamList } from '../types';
-
+import ProfilePicture from "../components/ProfilePicture";
 const BottomTab = createBottomTabNavigator<BottomTabParamList>();
 
 export default function BottomTabNavigator() {
@@ -69,16 +69,22 @@ function HomeNavigator() {
     <TabOneStack.Navigator>
       <TabOneStack.Screen
         name="HomeScreen"
-        component={TabOneScreen}
+        component={HomeScreen}
         options={{
             headerRightContainerStyle : {
-                marginRight: 10,
+                marginRight: 15,
+            },
+            headerLeftContainerStyle : {
+                marginLeft: 15,
             },
            headerTitle: () => (
                 <Ionicons name = {"logo-twitter"} size={30} color={Colors.light.tint}/>
             ),
             headerRight: () => (
                 <MaterialCommunityIcons name = {"star-four-points-outline"} size={30} color={Colors.light.tint}/>
+            ),
+            headerLeft: () => (
+             <ProfilePicture size={40} image={'https://lh3.googleusercontent.com/ogw/ADGmqu_FixVIodYxayq8WT9y9k85BcoPJEG172bkLtSi_do=s83-c-mo'} />
             )
 
         }}
