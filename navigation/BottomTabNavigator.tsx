@@ -2,13 +2,16 @@ import { Ionicons , MaterialCommunityIcons} from '@expo/vector-icons';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { createStackNavigator } from '@react-navigation/stack';
 import * as React from 'react';
-
+import {API, Auth, graphqlOperation} from 'aws-amplify'
 import Colors from '../constants/Colors';
 import useColorScheme from '../hooks/useColorScheme';
 import HomeScreen from '../screens/HomeScreen';
 import TabTwoScreen from '../screens/TabTwoScreen';
 import { BottomTabParamList, HomeNavigatorParamList, TabTwoParamList } from '../types';
 import ProfilePicture from "../components/ProfilePicture";
+import {useEffect, useState} from "react";
+import {getUser} from "../graphql/queries";
+
 const BottomTab = createBottomTabNavigator<BottomTabParamList>();
 
 export default function BottomTabNavigator() {
@@ -65,6 +68,27 @@ function TabBarIcon(props: { name: string; color: string }) {
 const TabOneStack = createStackNavigator<HomeNavigatorParamList>();
 
 function HomeNavigator() {
+
+    const [user,setUser] = useState(null)
+
+
+    useEffect(()=>{
+        //get current user
+        const fetchUser = async () =>{
+            const userInfo = await Auth.currentAuthenticatedUser({bypassCache:true});
+            if (!userInfo){return}
+            try {
+
+                const userData = await API.graphql(graphqlOperation(getUser,{id:userInfo.attributes.sub}))
+                if(userData){
+                    setUser(userData.data.getUser)
+                }
+            }catch (e) {
+                console.log(e);
+            }
+        }
+        fetchUser();
+    } , [])
   return (
     <TabOneStack.Navigator>
       <TabOneStack.Screen
@@ -84,7 +108,7 @@ function HomeNavigator() {
                 <MaterialCommunityIcons name = {"star-four-points-outline"} size={30} color={Colors.light.tint}/>
             ),
             headerLeft: () => (
-             <ProfilePicture size={40} image={'https://lh3.googleusercontent.com/ogw/ADGmqu_FixVIodYxayq8WT9y9k85BcoPJEG172bkLtSi_do=s83-c-mo'} />
+             <ProfilePicture size={40} image={  user?.image } />
             )
 
         }}
