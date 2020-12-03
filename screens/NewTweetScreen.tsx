@@ -112,7 +112,7 @@ const styles = StyleSheet.create({
         tweetInput:{
             height:100,
             maxHeight:300,
-            frontSize:20,
+            fontSize:20,
         },
         imageInput:{},
 }
