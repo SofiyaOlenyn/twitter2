@@ -6,7 +6,7 @@ export type FooterContainerProps ={
     tweet:TweetType
 }
 import styles from './styles';
-import {createLike} from '../../../../graphql/mutations'
+import {createLike, deleteLike} from '../../../../graphql/mutations'
 import {AntDesign, Entypo, EvilIcons, Feather} from "@expo/vector-icons";
 const Footer = ({tweet}:FooterContainerProps) => {
 
@@ -32,22 +32,45 @@ const Footer = ({tweet}:FooterContainerProps) => {
         },[]
     )
 
-    const onlike = async() => {
-        if(!user) {
-            return;
-        }
+
+
+    const submitLike = async () => {
         const like = {
             userID: user.attributes.sub,
             tweetID: tweet.id,
         }
-       try{
+        try{
 
-           const res  = await API.graphql(graphqlOperation(createLike,{input : like}));
+            const res  = await API.graphql(graphqlOperation(createLike,{input : like}));
             setMyLike(res.data.createLike);
             setLikesCount(likesCount+1)
-       }catch (e) {
-           console.log(e)
-       }
+        }catch (e) {
+            console.log(e)
+        }
+
+    }
+
+    const removeLike = async () => {
+        try {
+            await API.graphql(graphqlOperation(deleteLike, { input: { id: myLike.id } }))
+            setLikesCount(likesCount - 1);
+            setMyLike(null);
+        } catch (e) {
+            console.log(e);
+        }
+    }
+
+    const onLike = async () => {
+        if (!user) {
+            return;
+        }
+
+        if (!myLike) {
+            await submitLike()
+        } else {
+            await removeLike();
+        }
+
     }
     return (
     <View style={styles.container}>
@@ -63,7 +86,7 @@ const Footer = ({tweet}:FooterContainerProps) => {
 
         </View>
         <View style={styles.iconContainer}>
-            <TouchableOpacity onPress={onlike}>
+            <TouchableOpacity onPress={onLike}>
                 <AntDesign name={!myLike ? "hearto" : "heart"} size={20} color={!myLike ? 'grey' :'red'}/>
             </TouchableOpacity>
 
