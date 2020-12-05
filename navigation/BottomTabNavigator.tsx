@@ -11,7 +11,8 @@ import { BottomTabParamList, HomeNavigatorParamList, TabTwoParamList } from '../
 import ProfilePicture from "../components/ProfilePicture";
 import {useEffect, useState} from "react";
 import {getUser} from "../graphql/queries";
-
+import {Button} from "react-native";
+import * as Keychain from 'react-native-keychain'
 const BottomTab = createBottomTabNavigator<BottomTabParamList>();
 
 export default function BottomTabNavigator() {
@@ -66,12 +67,21 @@ function TabBarIcon(props: { name: string; color: string }) {
 // Each tab has its own navigation stack, you can read more about this pattern here:
 // https://reactnavigation.org/docs/tab-based-navigation#a-stack-navigator-for-each-tab
 const TabOneStack = createStackNavigator<HomeNavigatorParamList>();
-
+export const goHome = navigation => () => navigation.popToTop()()
 function HomeNavigator() {
 
     const [user,setUser] = useState(null)
 
+    const _onPress = async () => {
 
+        try {
+            await Auth.signOut()
+            await Keychain.resetInternetCredentials('auth')
+         //   goHome(navigation)()
+        } catch (err) {
+            (err.message)
+        }
+    }
     useEffect(()=>{
         //get current user
         const fetchUser = async () =>{
@@ -105,7 +115,8 @@ function HomeNavigator() {
                 <Ionicons name = {"logo-twitter"} size={30} color={Colors.light.tint}/>
             ),
             headerRight: () => (
-                <MaterialCommunityIcons name = {"star-four-points-outline"} size={30} color={Colors.light.tint}/>
+                // <MaterialCommunityIcons name = {"star-four-points-outline"} size={30} color={Colors.light.tint}/>
+                <Button title="Sign Out" onPress={_onPress} />
             ),
             headerLeft: () => (
              <ProfilePicture size={40} image={  user?.image } />

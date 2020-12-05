@@ -10,6 +10,7 @@ import { withAuthenticator } from 'aws-amplify-react-native'
 import config from './aws-exports'
 import {getUser} from "./graphql/queries";
 import {createUser} from "./graphql/mutations";
+import AmplifyTheme from "./constants/AuthTheme"
 
 Amplify.configure(config)
 
@@ -17,8 +18,9 @@ Amplify.configure(config)
   const isLoadingComplete = useCachedResources();
   const colorScheme = useColorScheme();
 
+
   const getRandomImage = () => {
-      return 'https://lh3.googleusercontent.com/ogw/ADGmqu_FixVIodYxayq8WT9y9k85BcoPJEG172bkLtSi_do=s83-c-mo'
+      return 'https://www.kindpng.com/picc/m/495-4952535_create-digital-profile-icon-blue-user-profile-icon.png'
   }
 
 

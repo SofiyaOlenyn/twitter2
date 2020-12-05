@@ -34,6 +34,7 @@ const Feed = () => {
                 refreshing={loading}
                 onRefresh={fetchTweets}
             />
+
         </View>
     );
 
