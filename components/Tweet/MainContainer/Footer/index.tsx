@@ -1,14 +1,15 @@
 import React, {useEffect, useState} from "react";
-import {View, Text, TouchableOpacity} from 'react-native';
+import {View, Text, TouchableOpacity, FlatList} from 'react-native';
 import {TweetType} from "../../../../types";
 import {API,graphqlOperation,Auth} from 'aws-amplify'
 export type FooterContainerProps ={
     tweet:TweetType
 }
 import styles from './styles';
-import {createLike, deleteLike} from '../../../../graphql/mutations'
+import {createLike, deleteLike, deleteTweet} from '../../../../graphql/mutations'
 import {AntDesign, Entypo, EvilIcons, Feather} from "@expo/vector-icons";
 const Footer = ({tweet}:FooterContainerProps) => {
+
 
 
 
@@ -16,14 +17,21 @@ const Footer = ({tweet}:FooterContainerProps) => {
     const [user,setUser]=useState (null);
     const [myLike,setMyLike] = useState(null)
     const[likesCount,setLikesCount] = useState(tweet.likes.items.length)
+    let [ableToDelete,setAbleToDelete] = useState(1)
     useEffect(()=>{
+
 
        const fetchUser = async () => {
            const currentUser =await Auth.currentAuthenticatedUser();
            setUser(currentUser)
-
+           if(tweet.user.id != currentUser.attributes.sub ){
+               setAbleToDelete(null);
+               console.log("tweetid"+tweet.user.id );
+               console.log(ableToDelete);
+           }
            const searchedLike = tweet.likes.items.find(
                (like)=> like.userID == currentUser.attributes.sub )
+
            setMyLike(searchedLike);
        };
 
@@ -70,6 +78,22 @@ const Footer = ({tweet}:FooterContainerProps) => {
         }
 
     }
+    const onDelete = async () => {
+        const currentUser =await Auth.currentAuthenticatedUser();
+        if(tweet.user.id != currentUser.attributes.sub ){return;}
+        const deleteTweet1 = {
+            userID: user.attributes.sub,
+            tweetID: tweet.id,
+        }
+        try{
+
+             await API.graphql(graphqlOperation(deleteTweet,{input : {id: deleteTweet1.tweetID}}));
+
+        }catch (e) {
+            console.log(e)
+        }
+
+    }
     return (
     <View style={styles.container}>
         <View style={styles.iconContainer}>
@@ -92,8 +116,9 @@ const Footer = ({tweet}:FooterContainerProps) => {
 
         </View>
         <View style={styles.iconContainer}>
-            <EvilIcons name={"share-google"} size={28} color={'grey'}/>
-
+            <TouchableOpacity onPress={onDelete}>
+            <EvilIcons name={ ableToDelete ? "trash" : "chevron-down"} size={28} color={'grey'}/>
+            </TouchableOpacity>
 
         </View>
 

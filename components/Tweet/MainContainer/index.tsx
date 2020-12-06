@@ -20,7 +20,7 @@ const MainContainer = ({ tweet }: MainContainerProps) => (
                 <Text style={styles.username}>@{tweet.user.username}</Text>
                 <Text style={styles.createdAt}>{moment(tweet.createdAt).fromNow()}</Text>
             </View>
-            <Entypo name={"chevron-down"} size={16} color={'grey'}/>
+            {/*<Entypo name={"chevron-down"} size={16} color={'grey'}/>*/}
         </View>
         <View>
             <Text style={styles.content}>{tweet.content}</Text>
