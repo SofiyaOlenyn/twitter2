@@ -18,6 +18,9 @@ export type HomeNavigatorParamList = {
 export type TabTwoParamList = {
   TabTwoScreen: undefined;
 };
+export type MyProfileParamList = {
+  MyProfileScreen: undefined;
+};
 
 export type UserType ={
   id:string,

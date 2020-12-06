@@ -2320,6 +2320,11 @@
   dependencies:
     "@types/hammerjs" "^2.0.36"
 
+"@entypo-icons/react@^1.0.4":
+  version "1.0.4"
+  resolved "https://registry.yarnpkg.com/@entypo-icons/react/-/react-1.0.4.tgz#15b4bf46f7177e2d36ce72eda3095e3a5a572d56"
+  integrity sha512-YvNKlvsj7XoyPeXvRhnqWOCK4Z0fsINrDqqsaELJ0SAK+4JiE38cl2mUoSbS7lVkQyHCdiT6+LKJmDvE2UnfZg==
+
 "@expo/babel-preset-cli@0.2.18":
   version "0.2.18"
   resolved "https://registry.yarnpkg.com/@expo/babel-preset-cli/-/babel-preset-cli-0.2.18.tgz#136acf8a0efe259e29ebc614b68552e5acb47d86"

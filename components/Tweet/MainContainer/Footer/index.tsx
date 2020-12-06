@@ -61,9 +61,7 @@ const Footer = ({tweet}:FooterContainerProps) => {
     }
 
     const onLike = async () => {
-        if (!user) {
-            return;
-        }
+
 
         if (!myLike) {
             await submitLike()

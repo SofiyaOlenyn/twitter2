@@ -7,7 +7,8 @@ import Colors from '../constants/Colors';
 import useColorScheme from '../hooks/useColorScheme';
 import HomeScreen from '../screens/HomeScreen';
 import TabTwoScreen from '../screens/TabTwoScreen';
-import { BottomTabParamList, HomeNavigatorParamList, TabTwoParamList } from '../types';
+import MyProfileScreen from '../screens/MyProfileScreen';
+import {BottomTabParamList, HomeNavigatorParamList, MyProfileParamList, TabTwoParamList} from '../types';
 import ProfilePicture from "../components/ProfilePicture";
 import {useEffect, useState} from "react";
 import {getUser} from "../graphql/queries";
@@ -49,7 +50,7 @@ export default function BottomTabNavigator() {
         />
         <BottomTab.Screen
             name="Messages"
-            component={TabTwoNavigator}
+            component={TabMyProfileNavigator}
             options={{
                 tabBarIcon: ({ color }) => <TabBarIcon name="ios-mail" color={color} />,
             }}
@@ -67,7 +68,7 @@ function TabBarIcon(props: { name: string; color: string }) {
 // Each tab has its own navigation stack, you can read more about this pattern here:
 // https://reactnavigation.org/docs/tab-based-navigation#a-stack-navigator-for-each-tab
 const TabOneStack = createStackNavigator<HomeNavigatorParamList>();
-export const goHome = navigation => () => navigation.popToTop()()
+//export const goHome = navigation => () => navigation.popToTop()()
 function HomeNavigator() {
 
     const [user,setUser] = useState(null)
@@ -76,7 +77,7 @@ function HomeNavigator() {
 
         try {
             await Auth.signOut()
-            await Keychain.resetInternetCredentials('auth')
+        //    await Keychain.resetInternetCredentials('auth')
          //   goHome(navigation)()
         } catch (err) {
             (err.message)
@@ -140,4 +141,69 @@ function TabTwoNavigator() {
       />
     </TabTwoStack.Navigator>
   );
+
+}
+const TabMyProfileStack = createStackNavigator<MyProfileParamList>();
+function TabMyProfileNavigator() {
+
+    const [user,setUser] = useState(null)
+
+    const _onPress = async () => {
+
+        try {
+            await Auth.signOut()
+            //    await Keychain.resetInternetCredentials('auth')
+            //   goHome(navigation)()
+        } catch (err) {
+            (err.message)
+        }
+    }
+    useEffect(()=>{
+        //get current user
+        const fetchUser = async () =>{
+            const userInfo = await Auth.currentAuthenticatedUser({bypassCache:true});
+            if (!userInfo){return}
+            try {
+
+                const userData = await API.graphql(graphqlOperation(getUser,{id:userInfo.attributes.sub}))
+                if(userData){
+                    setUser(userData.data.getUser)
+                }
+            }catch (e) {
+                console.log(e);
+            }
+        }
+        fetchUser();
+    } , [])
+
+    return (
+        <TabMyProfileStack.Navigator>
+            <TabMyProfileStack.Screen
+                name="MyProfileScreen"
+                component={MyProfileScreen}
+                options={{
+                    headerRightContainerStyle : {
+                        marginRight: 15,
+                    },
+                    headerLeftContainerStyle : {
+                        marginLeft: 15,
+                    },
+                    headerTitle: () => (
+                        <Ionicons name = {"logo-twitter"} size={30} color={Colors.light.tint}/>
+                    ),
+                    headerRight: () => (
+                        // <MaterialCommunityIcons name = {"star-four-points-outline"} size={30} color={Colors.light.tint}/>
+                        <Button title="Sign Out" onPress={_onPress} />
+                    ),
+                    headerLeft: () => (
+                        <ProfilePicture size={40} image={  user?.image } />
+
+
+                    )
+
+                }}
+            />
+        </TabMyProfileStack.Navigator>
+    );
+
 }

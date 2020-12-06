@@ -50,7 +50,7 @@ export const listUsers = /* GraphQL */ `
   }
 `;
 export const getTweet = /* GraphQL */ `
-  query GetTweet($id: ID!) {
+  query GetTweet($id: id!) {
     getTweet(id: $id) {
       id
       content
@@ -81,6 +81,23 @@ export const getTweet = /* GraphQL */ `
       createdAt
       updatedAt
     }
+  }
+`;
+
+export const listOfMyTweets = /* GraphQL */ `
+  query GetListOfMyTweets(userID: userID!) {
+  listTweets(filter: {and: {userID: {userID}}}) {
+    items {
+      content
+      image
+      createdAt
+      user {
+        name
+        image
+        username
+      }
+    }
+  }
   }
 `;
 export const listTweets = /* GraphQL */ `
