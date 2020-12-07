@@ -1,6 +1,7 @@
 export type RootStackParamList = {
   Root: undefined;
   NewTweet: undefined;
+  EditProfile: undefined;
   NotFound: undefined;
 };
 

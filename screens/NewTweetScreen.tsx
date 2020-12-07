@@ -121,6 +121,7 @@ export default function NewTweetScreen() {
                         onChangeText={(value) => setTweet(value)}
                         multiline={true}
                         numberOfLines={3}
+                        maxLength = {200}
                         style={styles.tweetInput}
                         placeholder={"What's happening?"}
                     />

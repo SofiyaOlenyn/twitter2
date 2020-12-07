@@ -52,7 +52,7 @@ export default function BottomTabNavigator() {
             name="Messages"
             component={TabMyProfileNavigator}
             options={{
-                tabBarIcon: ({ color }) => <TabBarIcon name="ios-mail" color={color} />,
+                tabBarIcon: ({ color }) => <TabBarIcon name="ios-contact" color={color} />,
             }}
         />
     </BottomTab.Navigator>

@@ -14,7 +14,7 @@ export default function MyProfileScreen() {
     );
     const onPress = () => {
 
-        navigaion.navigate('NewTweet')
+        navigaion.navigate('EditProfile')
     }
     return (
         <View style={styles.container}>
@@ -24,9 +24,7 @@ export default function MyProfileScreen() {
             <Separator />
             <Button title="Edit profile" onPress={onPress} />
 
-            {/*<View style={styles.submitButton}>*/}
-            {/*   */}
-            {/*</View>*/}
+
             <ProfileFeed />
             <NewTweetButton/>
         </View>

@@ -17,7 +17,6 @@ const ProfileFeed = () => {
         try {
             const tweetsData = await API.graphql(graphqlOperation(listTweets));
 
-          //  { input: { userID: currentUser.attributes.sub }
 
                 let results = [];
                 for (let elem of tweetsData.data.listTweets.items) {
