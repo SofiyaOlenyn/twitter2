@@ -2,7 +2,9 @@ export type RootStackParamList = {
   Root: undefined;
   NewTweet: undefined;
   EditProfile: undefined;
+  UserProfile:undefined;
   NotFound: undefined;
+  MyProfile: undefined;
 };
 
 export type BottomTabParamList = {

@@ -7,6 +7,7 @@ import ProfileFeed from "../components/ProfileFeed";
 import NewTweetButton from "../components/NewTweetButton";
 import {useNavigation} from "@react-navigation/native";
 import Colors from "../constants/Colors";
+import BottomTabNavigator from '../navigation/BottomTabNavigator';
 export default function MyProfileScreen() {
     const navigaion = useNavigation();
     const Separator = () => (
@@ -16,20 +17,21 @@ export default function MyProfileScreen() {
 
         navigaion.navigate('EditProfile')
     }
+
+
     return (
         <View style={styles.container}>
             <Separator />
-            <Separator />
-            <Separator />
-            <Separator />
+
             <Button title="Edit profile" onPress={onPress} />
-
-
             <ProfileFeed />
             <NewTweetButton/>
+            <BottomTabNavigator/>
         </View>
+
     );
 }
+
 const styles = StyleSheet.create({
     container: {
         flex: 1,

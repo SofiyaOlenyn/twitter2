@@ -24,7 +24,12 @@ export default function EditProfileScreen() {
 
 
     return (
+
+
+
+
         <SafeAreaView style={styles.container}>
+
             <View style={styles.headerContainer}>
                 <TouchableOpacity onPress={() => navigation.goBack()}>
                     <AntDesign name="close" size={30} color={Colors.light.tint} />
@@ -51,6 +56,13 @@ const styles = StyleSheet.create({
         justifyContent: 'space-between',
         padding: 15,
     },
+    headingText: {
+        paddingHorizontal: 20,
+        paddingVertical: 10,
+        color: 'black',
+        fontWeight: 'bold',
+        fontSize: 16
+    },
     button: {
         backgroundColor: Colors.light.tint,
         borderRadius: 30,
@@ -62,13 +74,7 @@ const styles = StyleSheet.create({
         fontWeight: 'bold',
         fontSize: 16
     },
-    headingText: {
-        paddingHorizontal: 20,
-        paddingVertical: 10,
-        color: 'black',
-        fontWeight: 'bold',
-        fontSize: 16
-    },
+
     newTweetContainer: {
         flexDirection: 'row',
         padding: 15,

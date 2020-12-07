@@ -2,12 +2,15 @@ import React, {useEffect, useState} from 'react';
 import {API, Auth, graphqlOperation} from 'aws-amplify';
 import {listOfMyTweets, listTweets} from "../../graphql/queries";
 import {View, FlatList, Button, StyleSheet, TouchableOpacity} from "react-native";
-import Tweet from "../Tweet";
+import Tweet, {TweetProps} from "../Tweet";
 import {useNavigation} from "@react-navigation/native";
 import Colors from "../../constants/Colors";
+import {UserType} from "../../types";
 
-
-const ProfileFeed = () => {
+export type UserProfileProp ={
+    id:UserType,
+}
+const UserProfileFeed = ({id}:UserProfileProp) => {
     const navigaion = useNavigation();
     const[tweets,setTweets] = useState([])
     const [loading,setLoading] = useState(false)
@@ -20,19 +23,19 @@ const ProfileFeed = () => {
             const tweetsData = await API.graphql(graphqlOperation(listTweets));
 
 
-                let results = [];
-                for (let elem of tweetsData.data.listTweets.items) {
+            let results = [];
+            for (let elem of tweetsData.data.listTweets.items) {
 
-                    if (elem.userID==currentUser.attributes.sub) {
-                //        console.log(elem);
-                       // let elem1 = elem.toString()
-                        results.push(elem)
+                if (elem.userID==id.id) {
+                          console.log(elem);
+                    // let elem1 = elem.toString()
+                    results.push(elem)
                     // }
                 }
-                }
-          //    console.log(results)
+            }
+            //    console.log(results)
 
-          //  console.log(tweetsData.data.listTweets.items)
+            //  console.log(tweetsData.data.listTweets.items)
 
             setTweets(results);
         } catch (e) {
@@ -95,4 +98,4 @@ const styles = StyleSheet.create({
 });
 
 
-export default ProfileFeed;
+export default UserProfileFeed;
