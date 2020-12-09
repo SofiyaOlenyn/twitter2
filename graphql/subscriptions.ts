@@ -21,6 +21,8 @@ export const onCreateUser = /* GraphQL */ `
         }
         nextToken
       }
+      followers
+      followings
       createdAt
       updatedAt
     }
@@ -45,6 +47,8 @@ export const onUpdateUser = /* GraphQL */ `
         }
         nextToken
       }
+      followers
+      followings
       createdAt
       updatedAt
     }
@@ -69,6 +73,8 @@ export const onDeleteUser = /* GraphQL */ `
         }
         nextToken
       }
+      followers
+      followings
       createdAt
       updatedAt
     }
@@ -90,6 +96,8 @@ export const onCreateTweet = /* GraphQL */ `
         tweets {
           nextToken
         }
+        followers
+        followings
         createdAt
         updatedAt
       }
@@ -124,6 +132,8 @@ export const onUpdateTweet = /* GraphQL */ `
         tweets {
           nextToken
         }
+        followers
+        followings
         createdAt
         updatedAt
       }
@@ -158,6 +168,8 @@ export const onDeleteTweet = /* GraphQL */ `
         tweets {
           nextToken
         }
+        followers
+        followings
         createdAt
         updatedAt
       }
@@ -191,6 +203,8 @@ export const onCreateLike = /* GraphQL */ `
         tweets {
           nextToken
         }
+        followers
+        followings
         createdAt
         updatedAt
       }
@@ -205,6 +219,8 @@ export const onCreateLike = /* GraphQL */ `
           name
           email
           image
+          followers
+          followings
           createdAt
           updatedAt
         }
@@ -234,6 +250,8 @@ export const onUpdateLike = /* GraphQL */ `
         tweets {
           nextToken
         }
+        followers
+        followings
         createdAt
         updatedAt
       }
@@ -248,6 +266,8 @@ export const onUpdateLike = /* GraphQL */ `
           name
           email
           image
+          followers
+          followings
           createdAt
           updatedAt
         }
@@ -277,6 +297,8 @@ export const onDeleteLike = /* GraphQL */ `
         tweets {
           nextToken
         }
+        followers
+        followings
         createdAt
         updatedAt
       }
@@ -291,6 +313,8 @@ export const onDeleteLike = /* GraphQL */ `
           name
           email
           image
+          followers
+          followings
           createdAt
           updatedAt
         }

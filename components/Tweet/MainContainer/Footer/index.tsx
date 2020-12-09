@@ -3,15 +3,13 @@ import {View, Text, TouchableOpacity, FlatList} from 'react-native';
 import {TweetType} from "../../../../types";
 import {API,graphqlOperation,Auth} from 'aws-amplify'
 export type FooterContainerProps ={
-    tweet:TweetType
+    tweet: TweetType
 }
 import styles from './styles';
 import {createLike, deleteLike, deleteTweet} from '../../../../graphql/mutations'
 import {AntDesign, Entypo, EvilIcons, Feather} from "@expo/vector-icons";
+import {getTweet, listTweets} from "../../../../graphql/queries";
 const Footer = ({tweet}:FooterContainerProps) => {
-
-
-
 
 
     const [user,setUser]=useState (null);
@@ -19,6 +17,7 @@ const Footer = ({tweet}:FooterContainerProps) => {
     const[likesCount,setLikesCount] = useState(tweet.likes.items.length)
     let [ableToDelete,setAbleToDelete] = useState(1)
     useEffect(()=>{
+
 
 
        const fetchUser = async () => {

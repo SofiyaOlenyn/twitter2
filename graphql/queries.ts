@@ -21,6 +21,8 @@ export const getUser = /* GraphQL */ `
         }
         nextToken
       }
+      followers
+      followings
       createdAt
       updatedAt
     }
@@ -42,6 +44,8 @@ export const listUsers = /* GraphQL */ `
         tweets {
           nextToken
         }
+        followers
+        followings
         createdAt
         updatedAt
       }
@@ -50,7 +54,7 @@ export const listUsers = /* GraphQL */ `
   }
 `;
 export const getTweet = /* GraphQL */ `
-  query GetTweet($id: id!) {
+  query GetTweet($id: ID!) {
     getTweet(id: $id) {
       id
       content
@@ -65,6 +69,8 @@ export const getTweet = /* GraphQL */ `
         tweets {
           nextToken
         }
+        followers
+        followings
         createdAt
         updatedAt
       }
@@ -81,23 +87,6 @@ export const getTweet = /* GraphQL */ `
       createdAt
       updatedAt
     }
-  }
-`;
-
-export const listOfMyTweets = /* GraphQL */ `
-  query GetListOfMyTweets(userID: userID!) {
-  listTweets(filter: {and: {userID: {userID}}}) {
-    items {
-      content
-      image
-      createdAt
-      user {
-        name
-        image
-        username
-      }
-    }
-  }
   }
 `;
 export const listTweets = /* GraphQL */ `
@@ -118,12 +107,13 @@ export const listTweets = /* GraphQL */ `
           name
           email
           image
+          followers
+          followings
           createdAt
           updatedAt
         }
         likes {
-        
-         items {
+        items {
           id
           userID
           tweetID

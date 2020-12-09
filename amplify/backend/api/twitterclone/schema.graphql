@@ -5,6 +5,8 @@ type User @model {
   email: String!
   image: String
   tweets: [Tweet] @connection(keyName: "byUser", fields: ["id"])
+  followers: [String]
+  followings: [String]
 
 }
 
