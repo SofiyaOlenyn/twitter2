@@ -8,16 +8,17 @@ import Colors from "../../constants/Colors";
 import {UserType} from "../../types";
 import {updateUser} from "../../graphql/mutations";
 import {UserProfileProp} from "../UserProfileFeed";
+import ProfileLine from "../ProfileLine";
 
 export type FollowersListProp ={
-    user:UserType,
+    user: UserType,
     followers: boolean
 }
 const FollowersList = ({user,followers}:FollowersListProp) => {
 
     const id = user.id
     const navigaion = useNavigation();
-    const[tweets,setTweets] = useState([])
+    const[lines,setLines] = useState([])
     const [loading,setLoading] = useState(false)
     const [follows,setFollows] = useState(false)
     const [numberOfFollowers,setNumberOfFollowers] = useState(0)
@@ -25,17 +26,55 @@ const FollowersList = ({user,followers}:FollowersListProp) => {
     const [followText,setFollowText] = useState("Follow")
 
 
+    const fetchUsers = async () => {
+        setLoading(true);
+        const currentUser =await Auth.currentAuthenticatedUser();
+        const visitedUser = await API.graphql(graphqlOperation(getUser,{id:user.id}))
+
+        try {
+
+            const visitedUser = await API.graphql(graphqlOperation(getUser,{id:id}))
+
+            let results = [];
+
+            if(followers){
+                for (let elem of visitedUser.data.getUser.followers) {
+                    results.push(elem)
+                }
+            }else{
+            for (let elem of visitedUser.data.getUser.followings) {
+                    results.push(elem)
+            }}
+
+
+            setLines(results);
+            console.log(results)
+
+        } catch (e) {
+            console.log(e);
+        } finally {
+            setLoading(false);
+        }
+    }
+
+    useEffect(() =>{
+        fetchUsers();
+
+    },[])
+
+
 
     return (
         <View style={{width: '100%'}}>
-            <Text>Bla bla</Text>
-            {/*<FlatList*/}
-            {/*    data={tweets}*/}
-            {/*    renderItem={({item}) => <Tweet tweet={item}/>}*/}
-            {/*    keyExtractor={(item) => item.id}*/}
-            {/*    refreshing={loading}*/}
-            {/*    onRefresh={fetchTweets}*/}
-            {/*/>*/}
+
+            {/*<Text>Blaffff bla</Text>*/}
+            <FlatList
+                data={lines}
+                renderItem={({item}) => <ProfileLine userId={item}/>}
+             //   keyExtractor={(item) => item.id}
+                refreshing={loading}
+                onRefresh={fetchUsers}
+            />
 
         </View>
     );

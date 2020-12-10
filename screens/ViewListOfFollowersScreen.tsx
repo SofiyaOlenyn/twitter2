@@ -27,9 +27,11 @@ const ViewListOfFollowersScreen = ({route}) => {
 
     let  x ;
     if(route.params.followers){
+        console.log("Followers  "+route.params.user.followers)
         x="Followers"
     }else{
         x="Followings"
+        console.log("Followings   "+route.params.user.followings)
     }
     const title = x;
 
@@ -48,8 +50,12 @@ const ViewListOfFollowersScreen = ({route}) => {
                 {/*<Text style={styles.username}>@{route.params.paramKey.username}</Text>*/}
                 {/*<ProfilePicture size={60} image={route.params.paramKey.image}/>*/}
 
-            </View>
 
+                {/*<View>*/}
+                    {/*<Text>{route.params.user.followers.pop()}</Text>*/}
+                {/*</View>*/}
+            </View>
+          {/*<Text>{route.params.user.followings}</Text>*/}
             <FollowersList
                 user={route.params.user}
                 followers={route.params.followers}

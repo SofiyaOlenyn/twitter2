@@ -32,7 +32,7 @@ const UserProfileFeed = ({id}:UserProfileProp) => {
 
         setNumberOfFollowers(visitedUserData.data.getUser.followers.length)
         setNumberOfFollowings(visitedUserData.data.getUser.followings.length)
-        if (currentUserData.data.getUser.followers.includes(id.id)) {
+        if (currentUserData.data.getUser.followers.includes(id.id) || visitedUserData.data.getUser.followings.includes(currentUser.attributes.sub)) {
             setFollows (true)
            // return
 
@@ -53,13 +53,16 @@ const UserProfileFeed = ({id}:UserProfileProp) => {
         const visitedUserData = await API.graphql(graphqlOperation(getUser,{id: id.id}))
         let idF
 
-        if(visitedUserData.data.getUser.followings==null){
+        if(visitedUserData.data.getUser.followings==null || visitedUserData.data.getUser.followings.length==0){
             idF =  currentUser.attributes.sub
+            console.log("!!!!0"+visitedUserData.data.getUser.following)
         }
         else {
             if (visitedUserData.data.getUser.followings.includes(currentUser.attributes.sub)) {
+                console.log("!!!!1"+visitedUserData.data.getUser.following)
                 idF = visitedUserData.data.getUser.followings
             } else {
+                console.log("!!!!2"+visitedUserData.data.getUser.following)
                 idF = visitedUserData.data.getUser.followings.concat(currentUser.attributes.sub)
             }
 
@@ -80,7 +83,7 @@ const UserProfileFeed = ({id}:UserProfileProp) => {
      //   console.log(currentUserData.data.getUser.followings)
 
 
-        if(currentUserData.data.getUser.followers==null){
+        if(currentUserData.data.getUser.followers==null || currentUserData.data.getUser.followers.length==0){
             idF2=id.id
         }else {
             if (currentUserData.data.getUser.followers.includes(id.id)) {
