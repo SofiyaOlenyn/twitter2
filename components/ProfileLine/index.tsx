@@ -21,11 +21,7 @@ const ProfileLine = ({userId}:ProfileLineProps) =>
     const [userUsername,setUserUsername] = useState('')
     const [userImg,setUserImg] = useState('')
 
-
-
-
     const checkIfCurrentUserFollow = async () => {
-
 
       //  const currentUser =await Auth.currentAuthenticatedUser();
         const currentUserData = await API.graphql(graphqlOperation(getUser,{id:userId}))
@@ -110,54 +106,6 @@ const styles = StyleSheet.create({
        // marginRight: 50,
         //color: 'grey',
     },
-    // headerContainer: {
-    //     // height: 60,
-    //     //   backgroundColor:'red',
-    //     //    width: '100%',
-    //
-    //     justifyContent: 'space-between',
-    //
-    // },
-    // followAndIngText :{
-    //     //  backgroundColor: Colors.light.tint,
-    //     height: 20,
-    //     marginHorizontal:60,
-    //
-    //     alignContent:"center",
-    //     justifyContent:"center",
-    //
-    // },
-    //
-    // submitButton: {
-    //     // position: 'absolute',
-    //     top:0,
-    //
-    //
-    //     alignContent:"center",
-    // },   buttonText: {
-    //     marginLeft:170,
-    //
-    //     //    paddingHorizontal: 20,
-    //     //    paddingVertical: 10,
-    //     color: 'white',
-    //     fontWeight: 'bold',
-    //     fontSize: 16,
-    //     alignContent:"center",
-    //     justifyContent:"center",
-    // },
-    // button :{
-    //     backgroundColor: Colors.light.tint,
-    //     height: 40,
-    //     margin:10,
-    //     borderRadius:20,
-    //     alignContent:"center",
-    //     justifyContent:"center",
-
-
-
-
-
-
 
 });
 

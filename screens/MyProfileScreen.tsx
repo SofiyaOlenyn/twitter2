@@ -8,8 +8,12 @@ import NewTweetButton from "../components/NewTweetButton";
 import {useNavigation} from "@react-navigation/native";
 import Colors from "../constants/Colors";
 import BottomTabNavigator from '../navigation/BottomTabNavigator';
+import HeaderForMyProfile from "../components/HeaderForMyProfile"
+import ProfilePicture from "../components/ProfilePicture";
 export default function MyProfileScreen() {
     const navigaion = useNavigation();
+
+
     const Separator = () => (
         <View style={styles.separator} />
     );
@@ -22,7 +26,7 @@ export default function MyProfileScreen() {
     return (
         <View style={styles.container}>
             <Separator />
-
+            <HeaderForMyProfile/>
             <Button title="Edit profile" onPress={onPress} />
             <ProfileFeed />
             <NewTweetButton/>
