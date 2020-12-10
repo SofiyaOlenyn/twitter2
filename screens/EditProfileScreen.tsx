@@ -16,6 +16,7 @@ import { Text, View } from '../components/Themed';
 import { AntDesign } from "@expo/vector-icons";
 import Colors from "../constants/Colors";
 import EditProfile from '../components/EditProfile';
+import ProfilePicture from "../components/ProfilePicture";
 
 export default function EditProfileScreen() {
     const navigation = useNavigation();
@@ -25,9 +26,6 @@ export default function EditProfileScreen() {
 
     return (
 
-
-
-
         <SafeAreaView style={styles.container}>
 
             <View style={styles.headerContainer}>
@@ -35,7 +33,6 @@ export default function EditProfileScreen() {
                     <AntDesign name="close" size={30} color={Colors.light.tint} />
                 </TouchableOpacity>
                 <Text style={styles.headingText}> Edit Profile </Text>
-
             </View>
             <View>
                 <EditProfile/>

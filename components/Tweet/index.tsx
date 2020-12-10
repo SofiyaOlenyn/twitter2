@@ -19,7 +19,7 @@ const Tweet = ({tweet}:TweetProps) =>
     const onPress = async () => {
         const currentUser = await Auth.currentAuthenticatedUser();
         if (tweet.user.id != currentUser.attributes.sub) {
-            console.log("paramKey")
+            //console.log("paramKey")
             navigaion.navigate('UserProfile', {
                 paramKey: tweet.user,
             })

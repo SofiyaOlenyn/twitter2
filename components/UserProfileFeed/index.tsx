@@ -18,7 +18,32 @@ const UserProfileFeed = ({id}:UserProfileProp) => {
     const[tweets,setTweets] = useState([])
     const [loading,setLoading] = useState(false)
     const [follows,setFollows] = useState(false)
+    const [numberOfFollowers,setNumberOfFollowers] = useState(0)
+    const [numberOfFollowings,setNumberOfFollowings] = useState(0)
     const [followText,setFollowText] = useState("Follow")
+
+
+    const checkIfCurrentUserFollow = async () => {
+
+
+        const currentUser =await Auth.currentAuthenticatedUser();
+        const currentUserData = await API.graphql(graphqlOperation(getUser,{id:currentUser.attributes.sub}))
+        const visitedUserData = await API.graphql(graphqlOperation(getUser,{id: id.id}))
+
+        setNumberOfFollowers(visitedUserData.data.getUser.followers.length)
+        setNumberOfFollowings(visitedUserData.data.getUser.followings.length)
+        if (currentUserData.data.getUser.followers.includes(id.id)) {
+            setFollows (true)
+           // return
+
+        }else { setFollows (false)}
+
+
+
+
+    }
+
+
 
 
     const follow = async () => {
@@ -78,7 +103,7 @@ const UserProfileFeed = ({id}:UserProfileProp) => {
         let l2 =  await API.graphql(graphqlOperation(updateUser, { input: upUser2 }));
         console.log("following ->    "+l2)
 
-
+        setNumberOfFollowings(numberOfFollowings+1)
         setFollows(true)
 
 
@@ -159,6 +184,7 @@ const UserProfileFeed = ({id}:UserProfileProp) => {
         }
         let l2 =  await API.graphql(graphqlOperation(updateUser, { input: upUser2 }));
         console.log("following ->    "+l2)
+        setNumberOfFollowings(numberOfFollowings-1)
         setFollows(false);
 
 
@@ -194,13 +220,39 @@ const UserProfileFeed = ({id}:UserProfileProp) => {
         }
     }
     useEffect(() =>{
-
+        checkIfCurrentUserFollow();
         fetchTweets();
     },[])
 
 
+
+    const openFollowersList = async () =>
+    navigaion.navigate('ViewListOfFollowers', {
+        user : id,
+        followers: true
+
+    })
+    const openFollowingList = async () =>
+        navigaion.navigate('ViewListOfFollowers', {
+            user : id,
+            followers: false
+
+        })
+
     return (
         <View style={{width: '100%'}}>
+
+            <View style={styles.headerContainer}>
+                <TouchableOpacity style={styles.followAndIngText} onPress={openFollowingList} >
+                    <Text>Followings: {numberOfFollowings}</Text>
+                </TouchableOpacity>
+                <TouchableOpacity style={styles.followAndIngText} onPress={openFollowersList} >
+                    <Text>Followers: {numberOfFollowers}</Text>
+                </TouchableOpacity>
+
+
+
+            </View>
             <TouchableOpacity style={styles.button} onPress={!follows ? follow : unfollow}>
                 <Text style={styles.buttonText}>{ !follows ? "follow" : "unfollow"}</Text>
             </TouchableOpacity>
@@ -217,11 +269,30 @@ const UserProfileFeed = ({id}:UserProfileProp) => {
 
 }
 const styles = StyleSheet.create({
+
     container: {
         flex: 1,
         alignItems: 'center',
         justifyContent: 'center',
     },
+    headerContainer: {
+       // height: 60,
+     //   backgroundColor:'red',
+    //    width: '100%',
+        flexDirection: 'row',
+        justifyContent: 'space-between',
+
+    },
+    followAndIngText :{
+      //  backgroundColor: Colors.light.tint,
+        height: 20,
+        marginHorizontal:60,
+
+        alignContent:"center",
+        justifyContent:"center",
+
+    },
+
     submitButton: {
        // position: 'absolute',
         top:0,
@@ -241,7 +312,7 @@ const styles = StyleSheet.create({
     },
     button :{
         backgroundColor: Colors.light.tint,
-        height: 50,
+        height: 40,
         margin:10,
         borderRadius:20,
         alignContent:"center",

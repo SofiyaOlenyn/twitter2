@@ -16,19 +16,23 @@ import {BottomTabParamList} from "../types";
 import Feed from "../components/Feed";
 import UserProfileFeed from "../components/UserProfileFeed";
 import Tweet from "../components/Tweet";
+import FollowersList from "../components/FollowersList";
 const BottomTab = createBottomTabNavigator<BottomTabParamList>();
-    const UserProfileScreen = ({route}) => {
+
+const ViewListOfFollowersScreen = ({route}) => {
 
 
-        console.log(route.params.paramKey)
+    console.log(route.params.paramKey)
     const navigation = useNavigation();
-    const Separator = () => (
-        <View style={styles.separator} />
-    );
-    const onPress = () => {
 
-        navigation.navigate('EditProfile')
+    let  x ;
+    if(route.params.followers){
+        x="Followers"
+    }else{
+        x="Followings"
     }
+    const title = x;
+
     return (
         <SafeAreaView style={styles.container}>
 
@@ -37,20 +41,24 @@ const BottomTab = createBottomTabNavigator<BottomTabParamList>();
                 <TouchableOpacity onPress={() => navigation.goBack()}>
                     <AntDesign name="close" size={30} color={Colors.light.tint} />
                 </TouchableOpacity>
-                <Text style={styles.name}>{route.params.paramKey.name}</Text>
-                <Text style={styles.username}>@{route.params.paramKey.username}</Text>
-                <ProfilePicture size={60} image={route.params.paramKey.image}/>
+                <Text style={styles.headingText}>
+                    {title}
+                </Text>
+                {/*<Text style={styles.name}>{route.params.paramKey.name}</Text>*/}
+                {/*<Text style={styles.username}>@{route.params.paramKey.username}</Text>*/}
+                {/*<ProfilePicture size={60} image={route.params.paramKey.image}/>*/}
 
             </View>
 
-            <UserProfileFeed
-                id={route.params.paramKey}
+            <FollowersList
+                user={route.params.user}
+                followers={route.params.followers}
             />
             <BottomTabNavigator/>
         </SafeAreaView>
     );
 }
-export default UserProfileScreen;
+export default ViewListOfFollowersScreen;
 const styles = StyleSheet.create({
     container: {
         flex: 1,

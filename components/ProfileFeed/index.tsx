@@ -20,19 +20,19 @@ const ProfileFeed = () => {
             const tweetsData = await API.graphql(graphqlOperation(listTweets));
 
 
-                let results = [];
-                for (let elem of tweetsData.data.listTweets.items) {
+            let results = [];
+            for (let elem of tweetsData.data.listTweets.items) {
 
-                    if (elem.userID==currentUser.attributes.sub) {
-                //        console.log(elem);
-                       // let elem1 = elem.toString()
-                        results.push(elem)
+                if (elem.userID==currentUser.attributes.sub) {
+                    //        console.log(elem);
+                    // let elem1 = elem.toString()
+                    results.push(elem)
                     // }
                 }
-                }
-          //    console.log(results)
+            }
+            //    console.log(results)
 
-          //  console.log(tweetsData.data.listTweets.items)
+            //  console.log(tweetsData.data.listTweets.items)
 
             setTweets(results);
         } catch (e) {
@@ -48,6 +48,8 @@ const ProfileFeed = () => {
 
 
     return (
+
+
         <View style={{width: '100%'}}>
 
             <FlatList

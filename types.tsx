@@ -5,6 +5,7 @@ export type RootStackParamList = {
   UserProfile:undefined;
   NotFound: undefined;
   MyProfile: undefined;
+  ViewListOfFollowers:undefined
 };
 
 export type BottomTabParamList = {
