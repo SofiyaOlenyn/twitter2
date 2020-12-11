@@ -1,4 +1,4 @@
-import { Ionicons , MaterialCommunityIcons} from '@expo/vector-icons';
+import {AntDesign, Ionicons, MaterialCommunityIcons} from '@expo/vector-icons';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { createStackNavigator } from '@react-navigation/stack';
 import * as React from 'react';
@@ -8,12 +8,21 @@ import useColorScheme from '../hooks/useColorScheme';
 import HomeScreen from '../screens/HomeScreen';
 import TabTwoScreen from '../screens/TabTwoScreen';
 import MyProfileScreen from '../screens/MyProfileScreen';
-import {BottomTabParamList, HomeNavigatorParamList, MyProfileParamList, TabTwoParamList} from '../types';
+import {
+    BottomTabParamList,
+    HomeNavigatorParamList,
+    MyProfileParamList,
+    SearchParamList,
+    TabTwoParamList
+} from '../types';
 import ProfilePicture from "../components/ProfilePicture";
 import {useEffect, useState} from "react";
 import {getUser} from "../graphql/queries";
-import {Button} from "react-native";
+import {Button, TouchableOpacity} from "react-native";
 import * as Keychain from 'react-native-keychain'
+import SearchScreen from "../screens/SearchScreen";
+import {View} from "../components/Themed";
+import {useNavigation} from "@react-navigation/native";
 const BottomTab = createBottomTabNavigator<BottomTabParamList>();
 
 export default function BottomTabNavigator() {
@@ -36,7 +45,7 @@ export default function BottomTabNavigator() {
       />
       <BottomTab.Screen
         name="Search"
-        component={TabTwoNavigator}
+        component={SearchNavigator}
         options={{
           tabBarIcon: ({ color }) => <TabBarIcon name="ios-search" color={color} />,
         }}
@@ -141,6 +150,70 @@ function TabTwoNavigator() {
       />
     </TabTwoStack.Navigator>
   );
+
+}
+const SearchStack = createStackNavigator<SearchParamList>();
+function SearchNavigator() {
+    const navigation = useNavigation();
+    const [user,setUser] = useState(null)
+
+    const _onPress = async () => {
+
+        try {
+            await Auth.signOut()
+            //    await Keychain.resetInternetCredentials('auth')
+            //   goHome(navigation)()
+        } catch (err) {
+            (err.message)
+        }
+    }
+    useEffect(()=>{
+        //get current user
+        const fetchUser = async () =>{
+            const userInfo = await Auth.currentAuthenticatedUser({bypassCache:true});
+            if (!userInfo){return}
+            try {
+
+                const userData = await API.graphql(graphqlOperation(getUser,{id:userInfo.attributes.sub}))
+                if(userData){
+                    setUser(userData.data.getUser)
+                }
+            }catch (e) {
+                console.log(e);
+            }
+        }
+        fetchUser();
+    } , [])
+    return (
+        <SearchStack.Navigator>
+            <SearchStack.Screen
+                name="SearchScreen"
+                component={SearchScreen}
+                options={{
+                    headerRightContainerStyle : {
+                        marginRight: 15,
+                    },
+                    headerLeftContainerStyle : {
+                        marginLeft: 15,
+                    },
+                    headerTitle: () => (
+                        <Ionicons name = {"logo-twitter"} size={30} color={Colors.light.tint}/>
+                    ),
+                    headerRight: () => (
+                        // <MaterialCommunityIcons name = {"star-four-points-outline"} size={30} color={Colors.light.tint}/>
+                        <Button title="Sign Out" onPress={_onPress} />
+                    ),
+                    headerLeft: () => (
+                        <TouchableOpacity onPress={() => navigation.goBack()}>
+                            <AntDesign name="close" size={30} color={Colors.light.tint} />
+                        </TouchableOpacity>
+                    )
+
+                }}
+
+            />
+        </SearchStack.Navigator>
+    );
 
 }
 const TabMyProfileStack = createStackNavigator<MyProfileParamList>();

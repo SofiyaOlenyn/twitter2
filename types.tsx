@@ -25,6 +25,11 @@ export type TabTwoParamList = {
 export type MyProfileParamList = {
   MyProfileScreen: undefined;
 };
+export type SearchParamList = {
+  SearchScreen: undefined;
+};
+
+
 
 export type UserType ={
   id:string,
