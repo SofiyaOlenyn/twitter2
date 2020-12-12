@@ -61,7 +61,7 @@ const ProfileLine = ({userId}:ProfileLineProps) =>
             <Text style={styles.name}>{userName}</Text>
             <Text style={styles.username}>@{userUsername}</Text>
             <TouchableOpacity style={styles.img}
-                              // onPress={onPress}
+                               onPress={onPress}
             >
             <ProfilePicture  size={40} image={userImg} />
             </TouchableOpacity>

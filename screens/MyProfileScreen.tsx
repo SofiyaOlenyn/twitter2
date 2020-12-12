@@ -26,6 +26,10 @@ export default function MyProfileScreen() {
     return (
         <View style={styles.container}>
             <Separator />
+            <Separator />
+            <Separator />
+            <Separator />
+
             <HeaderForMyProfile/>
             <Button title="Edit profile" onPress={onPress} />
             <ProfileFeed />

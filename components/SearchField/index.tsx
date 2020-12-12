@@ -43,7 +43,7 @@ const SearchField = () => {
 
         setUserResults([]);
         let results = [];
-        console.log("result  "+JSON.stringify(usersResults))
+
             for (let elem of userData.data.listUsers.items) {
                 results.push(elem.id)
             }
@@ -51,7 +51,7 @@ const SearchField = () => {
             if(!results.includes(elem.id)){
             results.push(elem.id)}
         }
-           console.log("result  "+JSON.stringify(results))
+           // console.log("result  "+JSON.stringify(results))
        setUserResults(results);
     }
 

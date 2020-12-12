@@ -81,7 +81,12 @@ export default function NewTweetScreen() {
         return '';
     }
 
+
+
+
+
     const onPostTweet = async () => {
+
         let image;
         if (!!imageUrl) {
             image = await uploadImage();

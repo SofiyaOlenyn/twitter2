@@ -15,37 +15,55 @@ const ProfileFeed = () => {
     const fetchTweets = async () => {
         setLoading(true);
         const currentUser =await Auth.currentAuthenticatedUser();
-        // { input: { id: currentUser.sub } }
+
         try {
-            const tweetsData = await API.graphql(graphqlOperation(listTweets));
+            const f1= {
+
+                userID: {
+                    contains: currentUser.attributes.sub
+                }
+            }
+            const tweetsData = await API.graphql(graphqlOperation(listTweets,{ filter: f1 }));
+          //  const tweetsData = await API.graphql(graphqlOperation(listTweets));
 
 
             let results = [];
             for (let elem of tweetsData.data.listTweets.items) {
-
-                if (elem.userID==currentUser.attributes.sub) {
-                    //        console.log(elem);
-                    // let elem1 = elem.toString()
                     results.push(elem)
-                    // }
-                }
+
             }
             //    console.log(results)
 
             //  console.log(tweetsData.data.listTweets.items)
 
-            setTweets(results);
+            setTweets(results.sort(compare));
+            results = []
         } catch (e) {
             console.log(e);
         } finally {
             setLoading(false);
         }
     }
-    useEffect(() =>{
+    const compare =  (a, b) => {
+        if (a.createdAt>b.createdAt) {
+            return -1;
+        }
+        if (a.createdAt<b.createdAt) {
+            return 1;
+        }
 
+        return 0;
+    }
+    useEffect(() =>{
         fetchTweets();
     },[])
 
+
+
+    // const tweetGet =  () => {
+    //     fetchTweets();
+    //     return tweets;
+    // }
 
     return (
 

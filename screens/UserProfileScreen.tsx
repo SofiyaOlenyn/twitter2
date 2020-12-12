@@ -45,6 +45,7 @@ const BottomTab = createBottomTabNavigator<BottomTabParamList>();
 
             <UserProfileFeed
                 id={route.params.paramKey}
+
             />
             <BottomTabNavigator/>
         </SafeAreaView>

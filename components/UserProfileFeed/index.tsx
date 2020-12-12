@@ -198,24 +198,28 @@ const UserProfileFeed = ({id}:UserProfileProp) => {
 
         // { input: { id: currentUser.sub } }
         try {
-            const tweetsData = await API.graphql(graphqlOperation(listTweets));
+            const f1= {
+
+                userID: {
+                    contains: id.id
+                }
+            }
+            const tweetsData = await API.graphql(graphqlOperation(listTweets,{ filter: f1 }));
+
+          //  const tweetsData = await API.graphql(graphqlOperation(listTweets));
 
 
             let results = [];
             for (let elem of tweetsData.data.listTweets.items) {
 
-                if (elem.userID==id.id) {
-                          console.log(elem);
-                    // let elem1 = elem.toString()
                     results.push(elem)
-                    // }
-                }
+
             }
             //    console.log(results)
 
             //  console.log(tweetsData.data.listTweets.items)
 
-            setTweets(results);
+            setTweets(results.sort(compare));
         } catch (e) {
             console.log(e);
         } finally {
@@ -228,7 +232,16 @@ const UserProfileFeed = ({id}:UserProfileProp) => {
     },[])
 
 
-
+    const compare =  (a, b) => {
+        if (a.createdAt>b.createdAt) {
+            return -1;
+        }
+        if (a.createdAt<b.createdAt) {
+            return 1;
+        }
+        // a должно быть равным b
+        return 0;
+    }
     const openFollowersList = async () =>
     navigaion.navigate('ViewListOfFollowers', {
         user : id,
