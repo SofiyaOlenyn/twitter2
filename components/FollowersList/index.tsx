@@ -48,7 +48,7 @@ const FollowersList = ({user,followers}:FollowersListProp) => {
 
 
             setLines(results);
-            console.log(results)
+
 
         } catch (e) {
             console.log(e);
