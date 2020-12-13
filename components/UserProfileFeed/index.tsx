@@ -1,7 +1,7 @@
 import React, {useEffect, useState} from 'react';
 import {API, Auth, graphqlOperation} from 'aws-amplify';
 import {getUser, listOfMyTweets, listTweets} from "../../graphql/queries";
-import {View, FlatList, Button, StyleSheet, TouchableOpacity, Text} from "react-native";
+import {View, FlatList, Button, StyleSheet, TouchableOpacity, Text, ScrollView, RefreshControl} from "react-native";
 import Tweet, {TweetProps} from "../Tweet";
 import {useNavigation} from "@react-navigation/native";
 import Colors from "../../constants/Colors";
@@ -22,6 +22,13 @@ const UserProfileFeed = ({id}:UserProfileProp) => {
     const [numberOfFollowings,setNumberOfFollowings] = useState(0)
     const [followText,setFollowText] = useState("Follow")
 
+    const [refreshing, setRefreshing] = React.useState(false);
+
+    const wait = (timeout) => {
+        return new Promise(resolve => {
+            setTimeout(resolve, timeout);
+        });
+    }
 
     const checkIfCurrentUserFollow = async () => {
 
@@ -227,10 +234,18 @@ const UserProfileFeed = ({id}:UserProfileProp) => {
         }
     }
     useEffect(() =>{
+
         checkIfCurrentUserFollow();
         fetchTweets();
     },[])
 
+    const refrControll = async () => {
+        setRefreshing(true);
+
+        wait(500).then(() => setRefreshing(false));
+        checkIfCurrentUserFollow();
+        fetchTweets();
+    }
 
     const compare =  (a, b) => {
         if (a.createdAt>b.createdAt) {
@@ -256,9 +271,16 @@ const UserProfileFeed = ({id}:UserProfileProp) => {
         })
 
     return (
-        <View style={{width: '100%'}}>
 
-            <View style={styles.headerContainer}>
+        <ScrollView
+            //  contentContainerStyle={styles.scrollView}
+            refreshControl={
+                <RefreshControl refreshing={refreshing} onRefresh={refrControll}/>
+            }
+        >
+
+
+        <View style={styles.headerContainer}>
                 <TouchableOpacity style={styles.followAndIngText} onPress={openFollowingList} >
                     <Text>Followings: {numberOfFollowings}</Text>
                 </TouchableOpacity>
@@ -276,11 +298,11 @@ const UserProfileFeed = ({id}:UserProfileProp) => {
                 data={tweets}
                 renderItem={({item}) => <Tweet tweet={item}/>}
                 keyExtractor={(item) => item.id}
-                refreshing={loading}
-                onRefresh={fetchTweets}
+              //  refreshing={loading}
+              //  onRefresh={fetchTweets}
             />
 
-        </View>
+        </ScrollView>
     );
 
 }

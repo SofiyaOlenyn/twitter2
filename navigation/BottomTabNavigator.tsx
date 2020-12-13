@@ -126,7 +126,7 @@ function HomeNavigator() {
             ),
             headerRight: () => (
                 // <MaterialCommunityIcons name = {"star-four-points-outline"} size={30} color={Colors.light.tint}/>
-                <Button title="Sign Out" onPress={_onPress} />
+                <Ionicons name = {"ios-log-out"} onPress={_onPress} size={30} color={Colors.light.tint}/>
             ),
             headerLeft: () => (
              <ProfilePicture size={40} image={  user?.image } />
@@ -201,7 +201,9 @@ function SearchNavigator() {
                     ),
                     headerRight: () => (
                         // <MaterialCommunityIcons name = {"star-four-points-outline"} size={30} color={Colors.light.tint}/>
-                        <Button title="Sign Out" onPress={_onPress} />
+                        <Ionicons name = {"ios-log-out"} onPress={_onPress} size={30} color={Colors.light.tint}/>
+                        // <Button title="Sign Out" onPress={_onPress} />
+                    // sign-out ios-log-out
                     ),
                     headerLeft: () => (
                         <TouchableOpacity onPress={() => navigation.goBack()}>
@@ -266,7 +268,7 @@ function TabMyProfileNavigator() {
                     ),
                     headerRight: () => (
                         // <MaterialCommunityIcons name = {"star-four-points-outline"} size={30} color={Colors.light.tint}/>
-                        <Button title="Sign Out" onPress={_onPress} />
+                        <Ionicons name = {"ios-log-out"} onPress={_onPress} size={30} color={Colors.light.tint}/>
                     ),
                     headerLeft: () => (
                         <ProfilePicture size={40} image={  user?.image } />

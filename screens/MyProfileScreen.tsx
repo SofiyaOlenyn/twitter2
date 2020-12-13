@@ -1,5 +1,5 @@
 import * as React from 'react';
-import {Button, StyleSheet} from 'react-native';
+import {Button, RefreshControl, ScrollView, StyleSheet} from 'react-native';
 
 import { Text, View } from '../components/Themed';
 
@@ -12,7 +12,19 @@ import HeaderForMyProfile from "../components/HeaderForMyProfile"
 import ProfilePicture from "../components/ProfilePicture";
 export default function MyProfileScreen() {
     const navigaion = useNavigation();
+    const [refreshing, setRefreshing] = React.useState(false);
 
+    const wait = (timeout) => {
+        return new Promise(resolve => {
+            setTimeout(resolve, timeout);
+        });
+    }
+
+    const onRefresh = React.useCallback(() => {
+        setRefreshing(true);
+
+        wait(2000).then(() => setRefreshing(false));
+    }, []);
 
     const Separator = () => (
         <View style={styles.separator} />
@@ -24,18 +36,29 @@ export default function MyProfileScreen() {
 
 
     return (
+
         <View style={styles.container}>
-            <Separator />
-            <Separator />
-            <Separator />
-            <Separator />
+            {/*<ScrollView*/}
+
+            {/*    //contentContainerStyle={styles.scrollView}*/}
+            {/*    refreshControl={<RefreshControl refreshing={refreshing} onRefresh={onRefresh} />*/}
+            {/*    }*/}
+            {/*>*/}
+
+
+            {/*<Separator />*/}
+            {/*<Separator />*/}
+            {/*<Separator />*/}
+            {/*<Separator />*/}
 
             <HeaderForMyProfile/>
             <Button title="Edit profile" onPress={onPress} />
             <ProfileFeed />
+            {/*</ScrollView>*/}
             <NewTweetButton/>
             <BottomTabNavigator/>
         </View>
+
 
     );
 }

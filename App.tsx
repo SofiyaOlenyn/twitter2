@@ -50,7 +50,7 @@ Amplify.configure(config)
                }else {
                    console.log("user already exists")
                }
-               //check if user already exis t in data base
+
 
            }
 

@@ -19,9 +19,22 @@ import Tweet from "../components/Tweet";
 const BottomTab = createBottomTabNavigator<BottomTabParamList>();
     const UserProfileScreen = ({route}) => {
 
-
-        console.log(route.params.paramKey)
+        const wait = (timeout) => {
+            return new Promise(resolve => {
+                setTimeout(resolve, timeout);
+            });
+        }
+       // console.log(route.params.paramKey)
     const navigation = useNavigation();
+
+        const [refreshing, setRefreshing] = React.useState(false);
+
+        const onRefresh = React.useCallback(() => {
+            setRefreshing(true);
+
+            wait(2000).then(() => setRefreshing(false));
+        }, []);
+
     const Separator = () => (
         <View style={styles.separator} />
     );

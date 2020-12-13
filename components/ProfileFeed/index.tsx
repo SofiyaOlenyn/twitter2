@@ -68,7 +68,7 @@ const ProfileFeed = () => {
     return (
 
 
-        <View style={{width: '100%'}}>
+        <View style={{width: '100%',maxHeight:640}}>
 
             <FlatList
                 data={tweets}
