@@ -1,3 +1,3 @@
 
-Twitter clone 
-improving twitter clone from youtube tutorial 
+Twitter clone. 
+Improving twitter clone from youtube tutorial 
